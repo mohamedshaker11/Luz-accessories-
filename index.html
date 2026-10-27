@@ -112,6 +112,40 @@ setupFilters();renderProducts();saveCart();
     return data;
   }
 </script>
+  
+<div id="products-container"></div>
+
+<script>
+async function displayProducts() {
+  const container = document.getElementById("products-container");
+  container.innerHTML = "<p>جاري تحميل المنتجات...</p>";
+
+  const products = await getProducts();
+
+  if (!products || products.length === 0) {
+    container.innerHTML = "<p>لا توجد منتجات حاليًا.</p>";
+    return;
+  }
+
+  container.innerHTML = products.map(product => `
+    <div style="border:1px solid #ddd; padding:16px; margin:12px 0; border-radius:10px;">
+      ${
+        product.image_url
+          ? `<img src="${product.image_url}" alt="${product.name}" style="width:100%;max-width:250px;height:220px;object-fit:cover;">`
+          : ""
+      }
+      <h3>${product.name}</h3>
+      <p>${product.description || ""}</p>
+      <p>السعر: ${product.price}</p>
+    </div>
+  `).join("");
+}
+
+displayProducts();
+</script>
+</body>
+</html>
+
 </body>
 </html>
 </body>
