@@ -87,5 +87,32 @@ async function copyOrder(){try{await navigator.clipboard.writeText(lastOrder);to
 function exportProducts(){let blob=new Blob([JSON.stringify(products,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='luz-products-backup.json';a.click();URL.revokeObjectURL(url)}
 setupFilters();renderProducts();saveCart();
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = "PASTE_YOUR_PROJECT_URL_HERE";
+  const SUPABASE_KEY = "PASTE_YOUR_PUBLISHABLE_KEY_HERE";
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+  async function getProducts() {
+    const { data, error } = await supabaseClient
+      .from("products")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Products error:", error.message);
+      return [];
+    }
+
+    return data;
+  }
+</script>
+</body>
+</html>
 </body>
 </html>
