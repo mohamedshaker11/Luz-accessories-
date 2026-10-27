@@ -121,7 +121,8 @@ async function displayProducts() {
   container.innerHTML = "<p>جاري تحميل المنتجات...</p>";
 
   const products = await getProducts();
-
+console.log("Products:", products);
+console.log("Products count:", products.length);
   if (!products || products.length === 0) {
     container.innerHTML = "<p>لا توجد منتجات حاليًا.</p>";
     return;
